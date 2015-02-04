@@ -3,7 +3,7 @@
  * https://github.com/itisjoe/jSlotsPlus
  * base on jQuery jSlots Plugin 1.0.2 http://matthewlein.com/jslot/
  * Copyright (c) 2015 Feng Hsin Chiao
- * Version: 0.1 (2015-02-04)
+ * Version: 0.2 (2015-02-04)
  * licensed under the MIT licenses
  * Requires: jQuery v1.4.1 or later
  */
@@ -17,7 +17,7 @@
         base.$el = $(el);
         base.el = el;
 
-        base.$el.data("jSlots", base);
+        base.$el.data("jSlotsPlus", base);
 
         base.init = function() {
 
@@ -35,6 +35,7 @@
 
         $.jSlotsPlus.defaultOptions = {
             result : {},         // object: set result, like {0:7, 1:6, 2:5} will get 765
+            onInit : $.noop,     // Function: runs on init,
             number : 3,          // Number: number of slots
             winnerNumber : 1,    // Number or Array: list item number(s) upon which to trigger a win, 1-based index, NOT ZERO-BASED
             spinner : '',        // CSS Selector: element to bind the start event to
@@ -52,7 +53,7 @@
         // --------------------------------------------------------------------- //
 
         base.randomRange = function(low, high) {
-            return Math.floor( Math.random() * (1 + high - low) ) + low;
+            return Math.floor( Math.random() * (1 + 1*(high - low)) ) + low * 1;
         };
 
         // --------------------------------------------------------------------- //
@@ -76,10 +77,16 @@
 
 
         base.setup = function() {
+            var $list = base.$el;
+
+            base.$wrapper = $list.wrap('<div class="jSlots-wrapper"></div>').parent();
+
+            if ( $.isFunction(base.options.onInit) ) {
+                base.options.onInit();
+            }
 
             // set sizes
 
-            var $list = base.$el;
             var $li = $list.find('li').first();
 
             base.$liHeight = $li.outerHeight();
@@ -95,7 +102,6 @@
 
             $li.clone().appendTo($list);
 
-            base.$wrapper = $list.wrap('<div class="jSlots-wrapper"></div>').parent();
 
             // remove original, so it can be recreated as a Slot
             base.$el.remove();
@@ -257,12 +263,16 @@
     // JQUERY FN
     // --------------------------------------------------------------------- //
 
-    $.fn.jSlotsPlus = function(options){
+    $.fn.jSlotsPlus = function(options){   
         if (this.length) {
-            return this.each(function(){
-                (new $.jSlotsPlus(this, options));
+            var objs = [];
+            this.each(function () {
+                var obj = new $.jSlotsPlus(this, options);
+                objs.push(obj);                                
             });
+            return objs;
         }
+        
     };
 
 })(jQuery);
