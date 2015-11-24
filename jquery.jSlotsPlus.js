@@ -169,15 +169,14 @@
 
                 var that = this;
 
-                var endNum;
-                if (base.options.result[index]) {
-                    endNum = base.options.result[index];
-                } else {
+                var endNum = base.options.result[index];
+                if (isNaN(endNum)) {
                     endNum = base.randomRange( 1, base.liCount );
                 }
 
-                var finalPos = - ( (base.$liHeight * endNum) - base.$liHeight );
-                var finalSpeed = ( (this.spinSpeed * 0.5) * (base.liCount) ) / endNum;
+                var finalNumPos = endNum > 0 ? endNum : 10;
+                var finalPos = - ( (base.$liHeight * finalNumPos) - base.$liHeight );
+                var finalSpeed = ( (this.spinSpeed * 0.5) * (base.liCount) ) / finalNumPos;
 
                 that.$el
                     .css( 'top', -base.listHeight )
