@@ -3,7 +3,7 @@
  * https://github.com/itisjoe/jSlotsPlus
  * base on jQuery jSlots Plugin 1.0.2 http://matthewlein.com/jslot/
  * Copyright (c) 2015 Feng Hsin Chiao
- * Version: 0.2 (2015-02-04)
+ * Version: 0.3 (2015-11-24)
  * licensed under the MIT licenses
  * Requires: jQuery v1.4.1 or later
  */
